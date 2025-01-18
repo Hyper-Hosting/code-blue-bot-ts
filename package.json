@@ -1,0 +1,22 @@
+{
+  "name": "code-blue-bot-ts",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "clean": "del /s /q build",
+    "build": "tsc --build",
+    "start": "npm run clean && npm run build && node build/index.js",
+    "startNoClean": "npm run build && node build/index.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "dependencies": {
+    "@types/ms": "^2.1.0",
+    "discord.js": "^14.17.3",
+    "glob": "^11.0.1",
+    "mongoose": "^8.9.5",
+    "ms": "^2.1.3"
+  }
+}
