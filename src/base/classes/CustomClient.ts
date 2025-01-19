@@ -5,12 +5,14 @@ import Handler from "./Handler";
 import Command from "./Command";
 import SubCommand from "./SubCommand";
 import { connect } from "mongoose";
+import Interaction from "./Interaction";
 
 export default class CustomClient extends Client implements ICustomClient {
   handler: Handler;
   config: IConfig;
   commands: Collection<string, Command>;
   subCommands: Collection<string, SubCommand>;
+  interactions: Collection<string, Interaction>;
   cooldowns: Collection<string, Collection<string, number>>;
 
   constructor() {
@@ -27,6 +29,7 @@ export default class CustomClient extends Client implements ICustomClient {
     this.handler = new Handler(this);
     this.commands = new Collection();
     this.subCommands = new Collection();
+    this.interactions = new Collection();
     this.cooldowns = new Collection();
   }
 
@@ -42,5 +45,6 @@ export default class CustomClient extends Client implements ICustomClient {
   LoadHandlers(): void {
     this.handler.LoadEvents();
     this.handler.LoadCommands();
+    this.handler.LoadInteractions();
   }
 }

@@ -7,6 +7,7 @@ import {
 import CustomClient from "../../base/classes/CustomClient";
 import Event from "../../base/classes/Event";
 import Command from "../../base/classes/Command";
+import Interaction from "@/base/classes/Interaction";
 
 export default class CommandHandler extends Event {
   constructor(client: CustomClient) {
@@ -19,7 +20,19 @@ export default class CommandHandler extends Event {
 
   Execute(interaction: ChatInputCommandInteraction) {
     if (interaction.replied || interaction.deferred) return;
-    if (!interaction.isChatInputCommand()) return;
+    if (!interaction.isChatInputCommand()) {
+      const inter: Interaction = this.client.interactions.get(
+        interaction.commandName
+      )!;
+
+      try {
+        return inter.Execute(interaction);
+      } catch (ex) {
+        console.error(ex);
+      }
+
+      return;
+    }
 
     const command: Command = this.client.commands.get(interaction.commandName)!;
 
