@@ -1,9 +1,9 @@
 {
   "name": "code-blue-bot-ts",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "main": "index.js",
   "scripts": {
-    "clean": "del /s /q build",
+    "clean": "rimraf build",
     "build": "tsc --build",
     "start": "npm run clean && npm run build && node build/index.js",
     "dev": "npm run build && node build/index.js"
@@ -22,5 +22,8 @@
     "glob": "^11.0.1",
     "mongoose": "^8.9.5",
     "ms": "^2.1.3"
+  },
+  "devDependencies": {
+    "rimraf": "^6.0.1"
   }
 }
