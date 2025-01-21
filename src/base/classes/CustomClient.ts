@@ -22,6 +22,9 @@ export default class CustomClient extends Client implements ICustomClient {
         GatewayIntentBits.DirectMessages,
         GatewayIntentBits.GuildMessages,
         GatewayIntentBits.Guilds,
+        GatewayIntentBits.GuildVoiceStates,
+        GatewayIntentBits.GuildMessages,
+        GatewayIntentBits.MessageContent
       ],
     });
 
@@ -46,5 +49,6 @@ export default class CustomClient extends Client implements ICustomClient {
     this.handler.LoadEvents();
     this.handler.LoadCommands();
     this.handler.LoadInteractions();
+    this.handler.LoadFeatures();
   }
 }

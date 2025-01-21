@@ -3,22 +3,22 @@ import {
   ChatInputCommandInteraction,
   PermissionsBitField,
 } from "discord.js";
-import Command from "../../base/classes/Command";
-import CustomClient from "../../base/classes/CustomClient";
+import Command from "../../../base/classes/Command";
+import CustomClient from "../../../base/classes/CustomClient";
 
 export default class Cmd extends Command {
   constructor(client: CustomClient) {
     super(client, {
-      name: "me",
-      description: "Sends your message in an RP Format",
+      name: "panic-button",
+      description: "Press your panic button",
       server: "Main",
       default_member_permission:
         PermissionsBitField.Flags.UseApplicationCommands,
       cooldown: 1,
       options: [
         {
-          name: "message",
-          description: "The message you want to send",
+          name: "location",
+          description: "What is your location",
           type: ApplicationCommandOptionType.String,
           required: true,
         },
@@ -27,10 +27,10 @@ export default class Cmd extends Command {
   }
 
   Execute(interaction: ChatInputCommandInteraction) {
-    const message = interaction.options.getString("message");
+    const location = interaction.options.getString("location");
 
-    interaction.reply({
-      content: `${interaction.user}: *${message}*`,
-    });
+    interaction.reply(
+      `***Panic Button Pressed:*** ${interaction.user} *has pressed their Panic Button at \`${location}\`*`
+    );
   }
 }

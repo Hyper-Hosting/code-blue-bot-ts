@@ -4,8 +4,8 @@ import {
   EmbedBuilder,
   PermissionsBitField,
 } from "discord.js";
-import Command from "../../base/classes/Command";
-import CustomClient from "../../base/classes/CustomClient";
+import Command from "../../../base/classes/Command";
+import CustomClient from "../../../base/classes/CustomClient";
 import ms from "ms";
 import os from "os";
 const { version, dependencies } = require(`${process.cwd()}/package.json`);

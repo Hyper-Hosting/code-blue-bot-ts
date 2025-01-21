@@ -1,6 +1,6 @@
 import { ChatInputCommandInteraction, PermissionsBitField } from "discord.js";
-import Command from "../../base/classes/Command";
-import CustomClient from "../../base/classes/CustomClient";
+import Command from "../../../base/classes/Command";
+import CustomClient from "../../../base/classes/CustomClient";
 
 export default class Cmd extends Command {
   constructor(client: CustomClient) {

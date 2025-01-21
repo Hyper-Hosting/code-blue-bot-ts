@@ -1,13 +1,17 @@
 import {
+  ButtonInteraction,
   ChatInputCommandInteraction,
   Collection,
   EmbedBuilder,
   Events,
+  ModalSubmitInteraction,
+  StringSelectMenuInteraction,
 } from "discord.js";
 import CustomClient from "../../base/classes/CustomClient";
 import Event from "../../base/classes/Event";
 import Command from "../../base/classes/Command";
-import Interaction from "@/base/classes/Interaction";
+import Interaction from "../../base/classes/Interaction";
+import { checkPermission, isStaffBod } from "../../lib/permissions";
 
 export default class CommandHandler extends Event {
   constructor(client: CustomClient) {
@@ -18,17 +22,41 @@ export default class CommandHandler extends Event {
     });
   }
 
-  Execute(interaction: ChatInputCommandInteraction) {
+  async Execute(interaction: ChatInputCommandInteraction | ButtonInteraction | ModalSubmitInteraction | StringSelectMenuInteraction) {
     if (interaction.replied || interaction.deferred) return;
     if (!interaction.isChatInputCommand()) {
-      const inter: Interaction = this.client.interactions.get(
-        interaction.commandName
-      )!;
+      const inter: Interaction | undefined = this.client.interactions.get(
+        interaction.customId
+      );
+
+      if (!inter) return;
+
+      if (inter.staffLevel) {
+        const { department, level } = inter.staffLevel;
+        const allowed = await checkPermission(
+          interaction.user.id,
+          department,
+          level
+        );
+
+        if (!allowed) {
+          return interaction.reply({
+            embeds: [
+              new EmbedBuilder()
+                .setColor("Red")
+                .setDescription(
+                  `❌ You do not have permission to run this action!`
+                ),
+            ],
+            flags: "Ephemeral",
+          });
+        }
+      }
 
       try {
         return inter.Execute(interaction);
       } catch (ex) {
-        console.error(ex);
+        console.error(`Failed to execute interaction: ${ex}`);
       }
 
       return;
@@ -57,7 +85,7 @@ export default class CommandHandler extends Event {
     if (
       timestamps.has(interaction.user.id) &&
       now < (timestamps.get(interaction.user.id) || 0) + cooldownAmount
-    )
+    ) {
       return interaction.reply({
         embeds: [
           new EmbedBuilder()
@@ -73,9 +101,32 @@ export default class CommandHandler extends Event {
         ],
         flags: "Ephemeral",
       });
+    }
 
     timestamps.set(interaction.user.id, now);
     setTimeout(() => timestamps.delete(interaction.user.id), cooldownAmount);
+
+    if (command.staffLevel) {
+      const { department, level } = command.staffLevel;
+      const allowed = await checkPermission(
+        interaction.user.id,
+        department,
+        level
+      );
+
+      if (!allowed) {
+        return interaction.reply({
+          embeds: [
+            new EmbedBuilder()
+              .setColor("Red")
+              .setDescription(
+                `❌ You do not have permission to run this command!`
+              ),
+          ],
+          flags: "Ephemeral",
+        });
+      }
+    }
 
     try {
       const subCommandGroup = interaction.options.getSubcommandGroup(false);
@@ -88,7 +139,7 @@ export default class CommandHandler extends Event {
         command.Execute(interaction)
       );
     } catch (ex) {
-      console.error(ex);
+      console.error(`Failed to execute command: ${ex}`);
     }
   }
 }

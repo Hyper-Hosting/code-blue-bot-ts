@@ -6,6 +6,7 @@ import Event from "./Event";
 import Command from "./Command";
 import SubCommand from "./SubCommand";
 import Interaction from "./Interaction";
+import Feature from "./Feature";
 
 export default class Handler implements IHandler {
   client: CustomClient;
@@ -84,6 +85,19 @@ export default class Handler implements IHandler {
         interaction.name,
         interaction as Interaction
       );
+
+      return delete require.cache[require.resolve(file)];
+    });
+  }
+
+  async LoadFeatures() {
+    const files = (await glob(`build/features/**/*.js`)).map((filePath) =>
+      path.resolve(filePath)
+    );
+
+    files.map(async (file: string) => {
+      const feature: Feature = new (await import(file)).default(this.client);
+      feature.Execute();
 
       return delete require.cache[require.resolve(file)];
     });

@@ -3,6 +3,7 @@ import Command from "../classes/Command";
 import IConfig from "./IConfig";
 import SubCommand from "../classes/SubCommand";
 import Interaction from "../classes/Interaction";
+import Feature from "../classes/Feature";
 
 export default interface ICustomClient {
   config: IConfig;

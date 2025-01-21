@@ -32,7 +32,9 @@ export default class Ready extends Event {
         }
       );
 
-      console.log(`Successfully set ${res.length} commands in the ${serverName} server!`);
+      console.log(
+        `Successfully set ${res.length} commands in the ${serverName} server!`
+      );
     };
 
     setCommands("Main", this.client.config.mainGuildId);
