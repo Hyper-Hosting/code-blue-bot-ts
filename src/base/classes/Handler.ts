@@ -7,6 +7,7 @@ import Command from "./Command";
 import SubCommand from "./SubCommand";
 import Interaction from "./Interaction";
 import Feature from "./Feature";
+import GuildMemberAdd from "./GuildMemberAdd";
 
 export default class Handler implements IHandler {
   client: CustomClient;
@@ -98,6 +99,31 @@ export default class Handler implements IHandler {
     files.map(async (file: string) => {
       const feature: Feature = new (await import(file)).default(this.client);
       feature.Execute();
+
+      return delete require.cache[require.resolve(file)];
+    });
+  }
+
+  async LoadGuildMemberAdd() {
+    const files = (
+      await glob(`build/Event_Functions/GuildMemberAdd/**/*.js`)
+    ).map((filePath) => path.resolve(filePath));
+
+    files.map(async (file: string) => {
+      const memberJoin: GuildMemberAdd = new (await import(file)).default(
+        this.client
+      );
+
+      if (!memberJoin.server)
+        return (
+          delete require.cache[require.resolve(file)] &&
+          console.log(`${file.split("/").pop()} does not have a server name.`)
+        );
+
+      this.client.GuildMemberAdd.set(
+        memberJoin.server,
+        memberJoin as GuildMemberAdd
+      );
 
       return delete require.cache[require.resolve(file)];
     });

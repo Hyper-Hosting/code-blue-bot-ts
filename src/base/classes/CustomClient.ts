@@ -6,6 +6,7 @@ import Command from "./Command";
 import SubCommand from "./SubCommand";
 import { connect } from "mongoose";
 import Interaction from "./Interaction";
+import GuildMemberAdd from "./GuildMemberAdd";
 
 export default class CustomClient extends Client implements ICustomClient {
   handler: Handler;
@@ -13,6 +14,7 @@ export default class CustomClient extends Client implements ICustomClient {
   commands: Collection<string, Command>;
   subCommands: Collection<string, SubCommand>;
   interactions: Collection<string, Interaction>;
+  GuildMemberAdd: Collection<string, GuildMemberAdd>;
   cooldowns: Collection<string, Collection<string, number>>;
 
   constructor() {
@@ -24,16 +26,17 @@ export default class CustomClient extends Client implements ICustomClient {
         GatewayIntentBits.Guilds,
         GatewayIntentBits.GuildVoiceStates,
         GatewayIntentBits.GuildMessages,
-        GatewayIntentBits.MessageContent
+        GatewayIntentBits.MessageContent,
       ],
     });
 
     this.config = require(`${process.cwd()}/_data/config.json`);
     this.handler = new Handler(this);
+    this.cooldowns = new Collection();
     this.commands = new Collection();
     this.subCommands = new Collection();
     this.interactions = new Collection();
-    this.cooldowns = new Collection();
+    this.GuildMemberAdd = new Collection();
   }
 
   Init(): void {
@@ -50,5 +53,6 @@ export default class CustomClient extends Client implements ICustomClient {
     this.handler.LoadCommands();
     this.handler.LoadInteractions();
     this.handler.LoadFeatures();
+    this.handler.LoadGuildMemberAdd();
   }
 }

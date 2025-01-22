@@ -15,7 +15,7 @@ const mainServerData = require(`${process.cwd()}/_data/mainServerData.json`);
 export default class Inter extends Interaction {
   constructor(client: CustomClient) {
     super(client, {
-      name: "close-ui-submit",
+      name: "close-gulag-submit",
       staffLevel: StaffLevels.depStaff,
     });
   }
@@ -24,7 +24,7 @@ export default class Inter extends Interaction {
     await interaction.deferUpdate();
 
     const message = interaction.message!;
-    (message.channel as TextChannel).send("Closing UI");
+    (message.channel as TextChannel).send("Closing Gulag");
 
     const comments = interaction.fields.fields.toJSON()[0]?.value || "None";
 
@@ -34,7 +34,7 @@ export default class Inter extends Interaction {
 
     if (!logResult) {
       return interaction.followUp({
-        content: "Failed to find UI log",
+        content: "Failed to find Gulag log",
         flags: "Ephemeral",
       });
     }
@@ -51,7 +51,7 @@ export default class Inter extends Interaction {
 
     if (member && userRolesResult) {
       try {
-        await member.roles.remove(mainServerData.UI_ROLE);
+        await member.roles.remove(mainServerData.GULAG_ROLE);
         for (const role of userRolesResult.roles) {
           await member.roles.add(role);
         }
@@ -64,16 +64,12 @@ export default class Inter extends Interaction {
 
     await message.channel.delete();
 
-    const logChannel = (await message.guild!.channels.fetch(
-      mainServerData.MOD_LOGS_CHANNEL_ID
-    )) as TextChannel;
-
     const uiLogChannel = (await message.guild!.channels.fetch(
-      mainServerData.UI_LOGS_CHANNEL_ID
+      mainServerData.GULAG_LOGS_CHANNEL_ID
     )) as TextChannel;
 
     const embed = new EmbedBuilder()
-      .setTitle("UI Log")
+      .setTitle("Gulag Log")
       .setColor("#0b73bc")
       .addFields(
         {
@@ -105,11 +101,6 @@ export default class Inter extends Interaction {
         .setEmoji("📁")
         .setURL(`https://code-blue.hyperhostings.com/ui-log/${logResult.logId}`)
     );
-
-    logChannel.send({
-      embeds: [embed],
-      components: [row1],
-    });
 
     uiLogChannel.send({
       embeds: [embed],

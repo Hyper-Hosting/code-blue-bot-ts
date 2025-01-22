@@ -39,9 +39,9 @@ export default class Cmd extends Command {
     connection.subscribe(player);
 
     let resource = createAudioResource(
-      require("path").join(__dirname, `../../../public/audio/briefing-general.mp3`)
+      require("path").join(__dirname, `../../../../public/audio/briefing-general.mp3`)
     );
-
+    
     player.play(resource);
 
     player.once(AudioPlayerStatus.Idle, () => {

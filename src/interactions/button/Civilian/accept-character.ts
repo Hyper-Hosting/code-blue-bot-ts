@@ -15,7 +15,7 @@ export default class Inter extends Interaction {
 
   async Execute(interaction: ButtonInteraction) {
     await interaction.deferReply({
-      ephemeral: true,
+      flags: "Ephemeral"
     });
 
     const staffUser = await getUser(interaction.user.id);

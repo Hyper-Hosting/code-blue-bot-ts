@@ -11,7 +11,7 @@ import CustomClient from "../../base/classes/CustomClient";
 import Event from "../../base/classes/Event";
 import Command from "../../base/classes/Command";
 import Interaction from "../../base/classes/Interaction";
-import { checkPermission, isStaffBod } from "../../lib/permissions";
+import { checkPermission } from "../../lib/permissions";
 
 export default class CommandHandler extends Event {
   constructor(client: CustomClient) {
@@ -22,7 +22,13 @@ export default class CommandHandler extends Event {
     });
   }
 
-  async Execute(interaction: ChatInputCommandInteraction | ButtonInteraction | ModalSubmitInteraction | StringSelectMenuInteraction) {
+  async Execute(
+    interaction:
+      | ChatInputCommandInteraction
+      | ButtonInteraction
+      | ModalSubmitInteraction
+      | StringSelectMenuInteraction
+  ) {
     if (interaction.replied || interaction.deferred) return;
     if (!interaction.isChatInputCommand()) {
       const inter: Interaction | undefined = this.client.interactions.get(

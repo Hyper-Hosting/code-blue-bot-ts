@@ -13,7 +13,7 @@ export default class Ready extends Event {
     });
   }
 
-  Execute() {
+  async Execute() {
     console.log(`${this.client.user?.tag} is now ready!`);
     const rest = new REST().setToken(this.client.config.token);
 
@@ -33,12 +33,25 @@ export default class Ready extends Event {
       );
 
       console.log(
-        `Successfully set ${res.length} commands in the ${serverName} server!`
+        `Successfully set ${res.length} application (/) commands in the ${serverName} server!`
       );
     };
 
     setCommands("Main", this.client.config.mainGuildId);
     setCommands("Interview", this.client.config.interviewGuildId);
+
+    const globalCommands: any = await rest.put(
+      Routes.applicationCommands(this.client.config.discordClientId),
+      {
+        body: this.GetJson(
+          this.client.commands.filter((command) => command.server == "Global")
+        ),
+      }
+    );
+
+    console.log(
+      `Successfully set ${globalCommands.length} global application (/) commands!`
+    );
   }
 
   private GetJson(commands: Collection<string, Command>) {

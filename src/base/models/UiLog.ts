@@ -7,7 +7,11 @@ export interface IUiLogs extends Document {
   userId: string;
   userNickname: string;
   channelId: string;
-  messages: Message[];
+  messages: (Message & {
+    author: {
+      displayAvatarURL: string;
+    };
+  })[];
 }
 
 const schema = new Schema<IUiLogs>({

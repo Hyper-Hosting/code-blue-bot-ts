@@ -1,12 +1,12 @@
 {
   "name": "code-blue-bot-ts",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "main": "index.js",
   "scripts": {
     "clean": "rimraf build",
     "build": "tsc --build",
     "start": "npm run clean && npm run build && node build/index.js",
-    "dev": "npm run build && node build/index.js"
+    "dev": "npm run build && node --unhandled-rejections=warn --trace-deprecation --trace-warnings build/index.js"
   },
   "keywords": [],
   "author": "",
