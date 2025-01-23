@@ -1,6 +1,7 @@
 import { EmbedBuilder, GuildMember, TextChannel } from "discord.js";
 import GuildMemberAdd from "../../base/classes/GuildMemberAdd";
 import CustomClient from "../../base/classes/CustomClient";
+import { StatisticPlusOne } from "../../db/statistics";
 const mainServerData = require(`${process.cwd()}/_data/mainServerData.json`);
 
 export default class JoinEvent extends GuildMemberAdd {
@@ -42,19 +43,6 @@ export default class JoinEvent extends GuildMemberAdd {
     // Add the needs verification role to the member
     await member.roles.add(mainServerData.NEEDS_VERIFICATION_ROLE_ID);
 
-    // await Stat.findOneAndUpdate(
-    //   {
-    //     year: new Date().getFullYear(),
-    //     month: new Date().getMonth() + 1,
-    //   },
-    //   {
-    //     $inc: {
-    //       serverJoinsMain: 1,
-    //     },
-    //   },
-    //   {
-    //     upsert: true,
-    //   }
-    // );
+    await StatisticPlusOne(["serverJoinsMain"]);
   }
 }

@@ -1,6 +1,6 @@
 {
   "name": "code-blue-bot-ts",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "main": "index.js",
   "scripts": {
     "clean": "rimraf build",
@@ -21,7 +21,8 @@
     "fluent-ffmpeg": "^2.1.3",
     "glob": "^11.0.1",
     "mongoose": "^8.9.5",
-    "ms": "^2.1.3"
+    "ms": "^2.1.3",
+    "node-fetch": "^2.7.0"
   },
   "devDependencies": {
     "rimraf": "^6.0.1"

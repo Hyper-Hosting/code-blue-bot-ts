@@ -1,7 +1,7 @@
 import { EmbedBuilder, GuildMember, TextChannel } from "discord.js";
 import GuildMemberAdd from "../../base/classes/GuildMemberAdd";
 import CustomClient from "../../base/classes/CustomClient";
-import { StatisticsModel } from "../../base/models/Statistics";
+import { StatisticPlusOne } from "../../db/statistics";
 const interviewServerData = require(`${process.cwd()}/_data/interviewServerData.json`);
 
 export default class JoinEvent extends GuildMemberAdd {
@@ -47,20 +47,6 @@ To apply to be apart of our Community, go to <#1181710436220026970> complete the
     // Add the needs verification role to the member
     await member.roles.add(interviewServerData.APPLICANT_ROLE_ID);
 
-    await StatisticsModel.findOneAndUpdate(
-      {
-        year: new Date().getFullYear(),
-        month: new Date().getMonth() + 1,
-        day: new Date().getDate(),
-      },
-      {
-        $inc: {
-          serverJoinsInterview: 1,
-        },
-      },
-      {
-        upsert: true,
-      }
-    );
+    await StatisticPlusOne(["serverJoinsInterview"]);
   }
 }

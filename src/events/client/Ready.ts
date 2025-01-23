@@ -37,8 +37,9 @@ export default class Ready extends Event {
       );
     };
 
-    setCommands("Main", this.client.config.mainGuildId);
     setCommands("Interview", this.client.config.interviewGuildId);
+    setCommands("Main", this.client.config.mainGuildId);
+    setCommands("Business", this.client.config.businessGuildId);
 
     const globalCommands: any = await rest.put(
       Routes.applicationCommands(this.client.config.discordClientId),

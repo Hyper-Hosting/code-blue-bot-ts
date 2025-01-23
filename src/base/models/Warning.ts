@@ -13,12 +13,12 @@ export interface IWarnings extends Document {
 const schema = new Schema<IWarnings>({
   accountId: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: "Accounts",
+    ref: "Users",
     required: true,
   },
   staffId: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: "Accounts",
+    ref: "Users",
     required: true,
   },
   type: {
