@@ -7,6 +7,7 @@ import SubCommand from "./SubCommand";
 import { connect } from "mongoose";
 import Interaction from "./Interaction";
 import GuildMemberAdd from "./GuildMemberAdd";
+import GuildMemberRemove from "./GuildMemberRemove";
 
 export default class CustomClient extends Client implements ICustomClient {
   handler: Handler;
@@ -15,6 +16,7 @@ export default class CustomClient extends Client implements ICustomClient {
   subCommands: Collection<string, SubCommand>;
   interactions: Collection<string, Interaction>;
   GuildMemberAdd: Collection<string, GuildMemberAdd>;
+  GuildMemberRemove: Collection<string, GuildMemberRemove>;
   cooldowns: Collection<string, Collection<string, number>>;
 
   constructor() {
@@ -37,6 +39,7 @@ export default class CustomClient extends Client implements ICustomClient {
     this.subCommands = new Collection();
     this.interactions = new Collection();
     this.GuildMemberAdd = new Collection();
+    this.GuildMemberRemove = new Collection();
   }
 
   Init(): void {
@@ -54,5 +57,6 @@ export default class CustomClient extends Client implements ICustomClient {
     this.handler.LoadInteractions();
     this.handler.LoadFeatures();
     this.handler.LoadGuildMemberAdd();
+    this.handler.LoadGuildMemberRemove();
   }
 }

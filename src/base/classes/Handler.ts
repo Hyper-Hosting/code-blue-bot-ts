@@ -8,6 +8,7 @@ import SubCommand from "./SubCommand";
 import Interaction from "./Interaction";
 import Feature from "./Feature";
 import GuildMemberAdd from "./GuildMemberAdd";
+import GuildMemberRemove from "./GuildMemberRemove";
 
 export default class Handler implements IHandler {
   client: CustomClient;
@@ -123,6 +124,31 @@ export default class Handler implements IHandler {
       this.client.GuildMemberAdd.set(
         memberJoin.server,
         memberJoin as GuildMemberAdd
+      );
+
+      return delete require.cache[require.resolve(file)];
+    });
+  }
+
+  async LoadGuildMemberRemove() {
+    const files = (
+      await glob(`build/Event_Functions/GuildMemberRemove/**/*.js`)
+    ).map((filePath) => path.resolve(filePath));
+
+    files.map(async (file: string) => {
+      const member: GuildMemberRemove = new (await import(file)).default(
+        this.client
+      );
+
+      if (!member.server)
+        return (
+          delete require.cache[require.resolve(file)] &&
+          console.log(`${file.split("/").pop()} does not have a server name.`)
+        );
+
+      this.client.GuildMemberRemove.set(
+        member.server,
+        member as GuildMemberRemove
       );
 
       return delete require.cache[require.resolve(file)];

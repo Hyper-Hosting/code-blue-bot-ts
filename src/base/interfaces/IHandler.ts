@@ -3,4 +3,5 @@ export default interface IHandler {
   LoadCommands(): void;
   LoadInteractions(): void;
   LoadGuildMemberAdd(): void;
+  LoadGuildMemberRemove(): void;
 }

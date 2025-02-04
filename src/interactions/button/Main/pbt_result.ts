@@ -16,7 +16,7 @@ export default class Inter extends Interaction {
   }
 
   Execute(interaction: ButtonInteraction) {
-    const user = interaction.message.mentions.users.first();
+    const user = interaction.message.mentions.users.last();
     if (!user)
       return interaction.reply({
         content: "User not found",

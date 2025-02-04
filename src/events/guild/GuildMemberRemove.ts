@@ -1,19 +1,19 @@
-import { Events, GuildMember } from "discord.js";
+import { Events, GuildMember, Message, PartialGuildMember } from "discord.js";
 import CustomClient from "../../base/classes/CustomClient";
 import Event from "../../base/classes/Event";
-import GuildMemberAdd from "../../base/classes/GuildMemberAdd";
 import ServerName from "../../base/types/ServerName";
+import GuildMemberRemove from "../../base/classes/GuildMemberRemove";
 
-export default class MemberJoinHandler extends Event {
+export default class MemberLeaveHandler extends Event {
   constructor(client: CustomClient) {
     super(client, {
-      name: Events.GuildMemberAdd,
-      description: "Member Joined handler event",
+      name: Events.GuildMemberRemove,
+      description: "Member Left handler event",
       once: false,
     });
   }
 
-  async Execute(member: GuildMember) {
+  async Execute(member: GuildMember | PartialGuildMember) {
     let serverName: ServerName | null = null;
 
     if (member.guild.id == "1200499403757195274") {
@@ -49,11 +49,11 @@ export default class MemberJoinHandler extends Event {
     }
 
     if (serverName) {
-      const memberJoin: GuildMemberAdd =
-        this.client.GuildMemberAdd.get(serverName)!;
-      if (!memberJoin) return this.client.GuildMemberAdd.delete(serverName);
+      const memberLeft: GuildMemberRemove =
+        this.client.GuildMemberRemove.get(serverName)!;
+      if (!memberLeft) return this.client.GuildMemberRemove.delete(serverName);
 
-      memberJoin.Execute(member);
+      memberLeft.Execute(member);
     }
   }
 }
