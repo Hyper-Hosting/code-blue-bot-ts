@@ -9,7 +9,7 @@ export default class Inter extends Interaction {
   constructor(client: CustomClient) {
     super(client, {
       name: "deny-character-submit",
-      staffLevel: StaffLevels.hod,
+      staffLevel: StaffLevels.civ_trainee,
     });
   }
 
