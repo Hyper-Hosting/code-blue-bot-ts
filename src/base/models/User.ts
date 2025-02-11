@@ -22,6 +22,8 @@ export interface IUser extends Document {
   joinedSacdServer: boolean;
   joinedSafrServer: boolean;
   joinedSafrAcademyServer: boolean;
+  icLevel: string;
+  icDate: Date;
   mainDepartment: "civ" | "police" | "sacd" | "safr";
   activeDepartment: "civ" | "sahp" | "lscso" | "police" | "sacd" | "safr";
   civ: {
@@ -137,6 +139,8 @@ const schema = new Schema<IUser>({
     type: Boolean,
     default: false,
   },
+  icLevel: String,
+  icDate: Date,
   mainDepartment: {
     type: String,
     enum: ["civ", "police", "sacd", "safr"],

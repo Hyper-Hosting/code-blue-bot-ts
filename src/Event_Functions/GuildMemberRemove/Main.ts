@@ -34,8 +34,6 @@ export default class LeaveEvent extends GuildMemberRemove {
       console.log(
         `Deleted clerk user for ${user.firstName} ${user.lastInitial}`
       );
-    } catch (error) {
-      console.error(`Error in deleting clerk user event: ${error}`);
-    }
+    } catch (error) {}
   }
 }
