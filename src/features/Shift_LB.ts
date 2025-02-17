@@ -6,7 +6,7 @@ import {
 } from "discord.js";
 import CustomClient from "../base/classes/CustomClient";
 import Feature from "../base/classes/Feature";
-import { BusinessModel } from "../base/models/Business";
+import { BusinessModel } from "../base/models/Business-old";
 import { IShifts, ShiftModel } from "../base/models/Shifts";
 import { IUser } from "../base/models/User";
 const serverData = require(process.cwd() + "/_data/businessServerData.json");

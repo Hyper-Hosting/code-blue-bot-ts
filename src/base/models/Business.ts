@@ -2,41 +2,39 @@ import mongoose, { Document, Model, ObjectId, Schema } from "mongoose";
 
 export interface IBusiness extends Document {
   _id: ObjectId;
+  ceoId: ObjectId | string;
+  cooId: ObjectId | string;
+  cfoId: ObjectId | string;
   name: string;
-  ceoId: string;
-  cfoId: string;
-  cooId: string;
-  clockInChannelId: string;
-  leaderboardChannelId: string;
-  applicationResultsChannelId: string;
-  leaderboardMessageId: string;
-  acceptedRole1: string;
-  acceptedRole2: string;
-  acceptedRole3: string;
-  questions: string[];
-  minimumAge: Number;
-  logo: string;
-  colour: string;
+  acceptedRoles: string[];
+  questions: {
+    question: string;
+    description: string;
+    type: "short" | "long";
+  }[];
+  applicationChannel: string;
 }
 
 const schema = new Schema<IBusiness>({
+  ceoId: {
+    type: Schema.Types.ObjectId,
+    ref: "Users",
+    required: true,
+  },
+  cooId: {
+    type: Schema.Types.ObjectId,
+    ref: "Users",
+  },
+  cfoId: {
+    type: Schema.Types.ObjectId,
+    ref: "Users",
+  },
   name: String,
-  ceoId: String,
-  cfoId: String,
-  cooId: String,
-  clockInChannelId: String,
-  leaderboardChannelId: String,
-  applicationResultsChannelId: String,
-  leaderboardMessageId: String,
-  acceptedRole1: String,
-  acceptedRole2: String,
-  acceptedRole3: String,
+  acceptedRoles: Array,
   questions: Array,
-  minimumAge: Number,
-  logo: String,
-  colour: String,
+  applicationChannel: String,
 });
 
 export const BusinessModel: Model<IBusiness> =
-  mongoose.models["Businesses"] ||
-  mongoose.model<IBusiness>("Businesses", schema);
+  mongoose.models["Business"] ||
+  mongoose.model<IBusiness>("Business", schema, "Business");

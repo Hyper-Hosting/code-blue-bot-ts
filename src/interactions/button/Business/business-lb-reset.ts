@@ -1,7 +1,7 @@
 import { ButtonInteraction } from "discord.js";
 import Interaction from "../../../base/classes/Interaction";
 import CustomClient from "../../../base/classes/CustomClient";
-import { BusinessModel } from "../../../base/models/Business";
+import { BusinessModel } from "../../../base/models/Business-old";
 import { ShiftModel } from "../../../base/models/Shifts";
 
 export default class Inter extends Interaction {

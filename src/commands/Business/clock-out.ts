@@ -6,7 +6,7 @@ import {
 import Command from "../../base/classes/Command";
 import CustomClient from "../../base/classes/CustomClient";
 import { ClockedInModel } from "../../base/models/Clocked-In";
-import { BusinessModel } from "../../base/models/Business";
+import { BusinessModel } from "../../base/models/Business-old";
 import { getUser } from "../../db/User";
 import { ShiftModel } from "../../base/models/Shifts";
 
