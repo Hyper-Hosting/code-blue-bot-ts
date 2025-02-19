@@ -16,14 +16,15 @@ export default class Inter extends Interaction {
   }
 
   Execute(interaction: ButtonInteraction) {
-    const user = interaction.message.mentions.users.last();
-    if (!user)
+    const userId = interaction.message.content.split("asks <@")[1].split(">")[0];
+    
+    if (!userId)
       return interaction.reply({
         content: "User not found",
         flags: "Ephemeral",
       });
 
-    if (user.id !== interaction.user.id) {
+    if (userId !== interaction.user.id) {
       return interaction.reply({
         content: "You are not the user that is getting breathalized",
         flags: "Ephemeral",
