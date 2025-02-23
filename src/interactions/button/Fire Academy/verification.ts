@@ -61,6 +61,12 @@ export default class Inter extends Interaction {
       }
 
       try {
+        await member.roles.add(safrServerData.PHASE_ONE_ROLE_ID);
+      } catch (error) {
+        errMsg += "```Unable to add the phase one role```\n";
+      }
+
+      try {
         await member.roles.add(safrServerData.EVOC_ROLE_ID);
       } catch (error) {
         errMsg += "```Unable to add the needs EVOC role```\n";
@@ -88,9 +94,7 @@ export default class Inter extends Interaction {
     }
 
     try {
-      await member.roles.remove(
-        safrServerData.NEEDS_VERIFICATION_ROLE_ID
-      );
+      await member.roles.remove(safrServerData.NEEDS_VERIFICATION_ROLE_ID);
     } catch (error) {
       errMsg += "```Unable to remove the needs verification role```\n";
     }

@@ -1,8 +1,9 @@
 import { ButtonInteraction } from "discord.js";
 import Interaction from "../../../base/classes/Interaction";
 import CustomClient from "../../../base/classes/CustomClient";
-import { BusinessModel } from "../../../base/models/Business-old";
 import { ShiftModel } from "../../../base/models/Shifts";
+import { BusinessModel } from "../../../base/models/Business";
+import { getUser } from "../../../db/User";
 
 export default class Inter extends Interaction {
   constructor(client: CustomClient) {
@@ -24,10 +25,16 @@ export default class Inter extends Interaction {
     });
 
     const businessData = await BusinessModel.findOne({
-      leaderboardChannelId: interaction.channel.id,
+      leaderboardChannel: interaction.channel.id,
     });
 
-    const userId = interaction.user.id;
+    const user = await getUser(interaction.user.id);
+
+    if (!user) {
+      return interaction.followUp("Unable to reset channel, user not found.");
+    }
+
+    const userId = user._id;
 
     if (!businessData) {
       return interaction.followUp(

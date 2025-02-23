@@ -1,6 +1,6 @@
 import mongoose, { Document, Model, ObjectId, Schema } from "mongoose";
 import { IUser } from "./User";
-import { IBusiness } from "./Business-old";
+import { IBusiness } from "./Business";
 
 export interface IShifts extends Document {
   _id: ObjectId;

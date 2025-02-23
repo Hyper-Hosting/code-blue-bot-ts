@@ -12,7 +12,11 @@ export interface IBusiness extends Document {
     description: string;
     type: "short" | "long";
   }[];
+  acceptingApps: boolean,
   applicationChannel: string;
+  leaderboardChannel: string;
+  clockInChannel: string;
+  leaderboardMessageId: string;
 }
 
 const schema = new Schema<IBusiness>({
@@ -32,7 +36,11 @@ const schema = new Schema<IBusiness>({
   name: String,
   acceptedRoles: Array,
   questions: Array,
+  acceptingApps: Boolean,
   applicationChannel: String,
+  leaderboardChannel: String,
+  clockInChannel: String,
+  leaderboardMessageId: String,
 });
 
 export const BusinessModel: Model<IBusiness> =

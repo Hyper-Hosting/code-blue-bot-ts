@@ -6,9 +6,9 @@ import {
 import Command from "../../base/classes/Command";
 import CustomClient from "../../base/classes/CustomClient";
 import { ClockedInModel } from "../../base/models/Clocked-In";
-import { BusinessModel } from "../../base/models/Business-old";
 import { getUser } from "../../db/User";
 import { ShiftModel } from "../../base/models/Shifts";
+import { BusinessModel } from "../../base/models/Business";
 
 export default class Cmd extends Command {
   constructor(client: CustomClient) {
@@ -32,7 +32,7 @@ export default class Cmd extends Command {
     }
 
     const businessData = await BusinessModel.findOne({
-      clockInChannelId: interaction.channel.id,
+      clockInChannel: interaction.channel.id,
     });
 
     if (businessData) {
