@@ -34,22 +34,23 @@ export default class Inter extends Interaction {
       return interaction.followUp("Unable to reset channel, user not found.");
     }
 
-    const userId = user._id;
+    const userId = user._id.toString();
 
     if (!businessData) {
       return interaction.followUp(
         "Unable to reset channel, business not found."
       );
     }
-
+    
     if (
-      userId !== businessData.ceoId &&
-      userId !== businessData.cfoId &&
-      userId !== businessData.cooId
-    )
+      userId !== businessData.ceoId.toString() &&
+      userId !== businessData.cfoId?.toString() &&
+      userId !== businessData.cooId?.toString()
+    ) {
       return interaction.followUp(
         "You are not authorized to complete this reset."
       );
+    }
 
     await ShiftModel.deleteMany({
       businessId: businessData._id,

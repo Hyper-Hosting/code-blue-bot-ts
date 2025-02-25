@@ -3,6 +3,7 @@ import Feature from "../base/classes/Feature";
 import { UsersModel } from "../base/models/User";
 import { TextChannel } from "discord.js";
 import { getAttendanceLast14Days } from "../db/attendance";
+import { isStaffBod } from "../lib/permissions";
 const serverData = require(process.cwd() + "/_data/mainServerData.json");
 
 export default class feature extends Feature {
@@ -19,25 +20,35 @@ export default class feature extends Feature {
     //   .catch()) as TextChannel;
     // if (!channel) return;
 
-    // setInterval(async () => {
+    // // setInterval(async () => {
     // const users = await UsersModel.find({
     //   joinedMainServer: true,
     // });
 
     // channel.send(`## Checking attendance for ${users.length} users...`);
 
-    // let amount = 0
+    // let amount = 0;
+    // let tesxt = "";
 
     // for (const user of users) {
-    //   const last14Days = await getAttendanceLast14Days(user._id);
+    //   const isAdmin = await isStaffBod(user.discordUserId);
       
-    //   if (last14Days < 3) {
-    //     amount++
+    //   if (!isAdmin) {
+    //     const last14Days = await getAttendanceLast14Days(user._id);
+    //     if (last14Days < 3) amount++;
+    //     if (last14Days >= 3)
+    //       tesxt += `${user.firstName} ${user.lastInitial}: ${last14Days}\n`;
+    //   } else {
+    //     tesxt += `${user.firstName} ${user.lastInitial}: is BOD\n`;
     //   }
     // }
 
-    // channel.send(`## ${amount} users have not attended at least 3 times in the last 14 days.`);
+    // console.log(tesxt);
 
-    // }, 1000 * 60 * 60 * 24);
+    // channel.send(
+    //   `## ${amount} users have not attended at least 3 times in the last 14 days.`
+    // );
+
+    // // }, 1000 * 60 * 60 * 24);
   }
 }
