@@ -19,7 +19,8 @@ export default class Cmd extends Command {
         "Start the RP | Does not need to be ran in #rp-announcements",
       server: "Main",
       staffLevel: StaffLevels.trainee,
-      default_member_permission: PermissionsBitField.Flags.ManageRoles,
+      default_member_permission:
+        PermissionsBitField.Flags.UseApplicationCommands,
       cooldown: 60,
       options: [
         {
