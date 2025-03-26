@@ -3,6 +3,8 @@ import CustomClient from "../../base/classes/CustomClient";
 import Event from "../../base/classes/Event";
 import Command from "../../base/classes/Command";
 import ServerName from "../../base/types/ServerName";
+import { InventoryModel } from "../../base/models/Inventory";
+import { StoreItemsModel } from "../../base/models/StoreItems";
 
 export default class Ready extends Event {
   constructor(client: CustomClient) {
@@ -53,6 +55,9 @@ export default class Ready extends Event {
     console.log(
       `Successfully set ${globalCommands.length} global application (/) commands!`
     );
+
+    await InventoryModel;
+    await StoreItemsModel;
   }
 
   private GetJson(commands: Collection<string, Command>) {

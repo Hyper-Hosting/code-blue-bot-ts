@@ -56,7 +56,7 @@ export default class Inter extends Interaction {
 
     if (member) {
       member.send(
-        `Your character approval has been denied for the following reason:\n\`${reason}\`\nEdit character: https://code-blue.hyperhostings.com/dashboard/cad/civ/character_selection/${charId}`
+        `Your character approval has been denied for the following reason:\n\`${reason}\`\nEdit character: https://code-blue.hyperhostings.com/dashboard/cad/civ/character_selection`
       );
     }
 
