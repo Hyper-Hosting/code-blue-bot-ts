@@ -20,78 +20,79 @@ export default class feature extends Feature {
     const server = await this.client.guilds.fetch(serverData.SERVER_ID).catch();
 
     setInterval(async () => {
-    const results = await BusinessModel.find();
+      const results = await BusinessModel.find();
 
-    for (const business of results) {
-      if (!business.leaderboardChannel) return;
+      for (const business of results) {
+        if (!business.leaderboardChannel) return;
 
-      const shiftResults = await ShiftModel.find<
-        IShifts & {
-          accountId: IUser;
-        }
-      >({
-        businessId: business._id,
-      })
-        .sort({
-          amount: -1,
+        const shiftResults = await ShiftModel.find<
+          IShifts & {
+            accountId: IUser;
+          }
+        >({
+          businessId: business._id,
         })
-        .populate({
-          path: "accountId",
-        });
+          .sort({
+            amount: -1,
+          })
+          .populate({
+            path: "accountId",
+          });
 
-      let text = "";
+        let text = "";
 
-      for (const shift of shiftResults) {
-        text += `<@${shift.accountId.discordUserId}> (${shift.accountId.firstName} ${shift.accountId.lastInitial}) has done \`${shift.amount}\` shifts\n`;
-      }
+        for (const shift of shiftResults) {
+          if (!shift.accountId.discordUserId) continue;
+          text += `<@${shift.accountId.discordUserId}> (${shift.accountId.firstName} ${shift.accountId.lastInitial}) has done \`${shift.amount}\` shifts\n`;
+        }
 
-      if (!text) text = "No shifts completed.";
+        if (!text) text = "No shifts completed.";
 
-      const embed = new EmbedBuilder()
-        .setTitle(`${business.name} Shifts`)
-        .setColor("Aqua")
-        .setDescription(text);
+        const embed = new EmbedBuilder()
+          .setTitle(`${business.name} Shifts`)
+          .setColor("Aqua")
+          .setDescription(text);
 
-      const row = new ActionRowBuilder<ButtonBuilder>().addComponents(
-        new ButtonBuilder()
-          .setCustomId("business-lb-reset")
-          .setLabel("Reset Leaderboard")
-          .setStyle(4)
-      );
-
-      const channel = (await server.channels
-        .fetch(business.leaderboardChannel)
-        .catch((err) => {})) as TextChannel;
-
-      if (!channel) return;
-
-      try {
-        const oldMsg = await channel.messages.fetch(
-          business.leaderboardMessageId
+        const row = new ActionRowBuilder<ButtonBuilder>().addComponents(
+          new ButtonBuilder()
+            .setCustomId("business-lb-reset")
+            .setLabel("Reset Leaderboard")
+            .setStyle(4)
         );
 
-        oldMsg.edit({
-          embeds: [embed],
-          components: [row],
-        });
-      } catch (error) {
-        channel
-          .send({
+        const channel = (await server.channels
+          .fetch(business.leaderboardChannel)
+          .catch((err) => {})) as TextChannel;
+
+        if (!channel) return;
+
+        try {
+          const oldMsg = await channel.messages.fetch(
+            business.leaderboardMessageId
+          );
+
+          oldMsg.edit({
             embeds: [embed],
             components: [row],
-          })
-          .then(async (msg) => {
-            await BusinessModel.findOneAndUpdate(
-              {
-                _id: business._id,
-              },
-              {
-                leaderboardMessageId: msg.id,
-              }
-            );
           });
+        } catch (error) {
+          channel
+            .send({
+              embeds: [embed],
+              components: [row],
+            })
+            .then(async (msg) => {
+              await BusinessModel.findOneAndUpdate(
+                {
+                  _id: business._id,
+                },
+                {
+                  leaderboardMessageId: msg.id,
+                }
+              );
+            });
+        }
       }
-    }
     }, 1000 * 60 * 5);
   }
 }
