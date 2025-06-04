@@ -19,7 +19,7 @@ export default class feature extends Feature {
   async Execute() {
     const server = await this.client.guilds.fetch(serverData.SERVER_ID).catch();
 
-    setInterval(async () => {
+    // setInterval(async () => {
       const results = await BusinessModel.find();
 
       for (const business of results) {
@@ -93,6 +93,6 @@ export default class feature extends Feature {
             });
         }
       }
-    }, 1000 * 60 * 5);
+    // }, 1000 * 60 * 5);
   }
 }
